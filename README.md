@@ -1,6 +1,6 @@
 # SimpleSearchable
 
-TODO: Write a gem description
+This gem adds the utility methods for a basic ActiveRecord search/filtering pattern explained [here](http://www.wordofmike.net/j/easy-active-record-search-pattern).
 
 ## Installation
 
@@ -14,13 +14,52 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install simple_searchable
-
 ## Usage
 
-TODO: Write usage instructions here
+To use, bundle the gem with your project and call `searchable_by` from your model(s):
+
+```ruby
+def Religion < ActiveRecord::Base
+  searchable_by :monotheiestic, :originated_in
+  
+  def self.originated_in(continents)
+    where(originating_continent: continents)
+  end
+  
+  def self.monotheistic(true_false)
+    where(monotheistic: true_false)
+  end
+end
+```
+
+Now write a search form which uses the method names as parameter keys:
+
+```erb
+<%= form_tag religions_path do %>
+  <%= fields_for :religion_filters do |f| %>
+    <%= f.label do %>
+      Monotheistic? <%= f.check_box :monotheistic, {}, true, false %>
+    <% end %>
+  
+    <%= f.label :originated_in, "Originated" %>
+    <%= f.select :originated_in, LOCATIONS %>
+  <% end %>
+
+  <%= submit_tag "Search Religions" %>
+<% end %>
+```
+
+And get your controller to use `search`:
+
+```ruby
+class ReligionsController < ApplicationController
+  def index
+    @religions = Religion.search(params[:religion_filters])
+  end
+end
+```
+
+If you want to add a new filter, add the scope to the AR class and list it in `searchable_by`, then add an input to your form.
 
 ## Contributing
 
