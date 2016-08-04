@@ -19,7 +19,7 @@ And then execute:
 To use, bundle the gem with your project and call `searchable_by` from your model(s):
 
 ```ruby
-def Religion < ActiveRecord::Base
+class Religion < ActiveRecord::Base
   searchable_by :monotheiestic, :originated_in
   
   def self.originated_in(continents)
