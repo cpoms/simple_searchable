@@ -1,6 +1,6 @@
 # SimpleSearchable
 
-This gem adds the utility methods for a basic ActiveRecord search/filtering pattern explained [here](http://www.wordofmike.net/j/easy-active-record-search-pattern).
+This gem adds the utility methods for a basic ActiveRecord search/filtering pattern.
 
 ## Installation
 
